@@ -8,6 +8,10 @@ function ForgotPasswordPage() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [token, setToken] = useState(null);
+  
+  // Reusable input field style
+  const inputStyle = "relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400";
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,10 +21,9 @@ function ForgotPasswordPage() {
     setLoading(true);
 
     try {
-      // Call the /api/auth/forgot-password endpoint
       const { data } = await api.post('/auth/forgot-password', { email });
       setSuccess(data.message + ". Copy the token below.");
-      setToken(data.resetToken); // Show the token
+      setToken(data.resetToken);
     } catch (err) {
       setError(err.response?.data?.message || 'Error sending reset token');
     } finally {
@@ -29,36 +32,53 @@ function ForgotPasswordPage() {
   };
 
   return (
-    <div className="auth-container">
-      <form onSubmit={handleSubmit} className="auth-form">
-        <h2>Forgot Password</h2>
-        
-        {error && <div className="alert error">{error}</div>}
-        {success && <div className="alert success">{success}</div>}
-
-        {/* If token is generated, show it */}
-        {token && (
-          <div className="alert info">
-            <strong>Your Reset Token:</strong>
-            <p style={{ wordBreak: 'break-all' }}>{token}</p>
-            <Link to="/reset-password">Go to Reset Password Page &rarr;</Link>
-          </div>
-        )}
-
-        <div className="form-group">
-          <label htmlFor="email">Enter your email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-10 shadow-lg dark:bg-gray-800">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+            Forgot Password
+          </h2>
         </div>
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? 'Sending...' : 'Get Reset Token'}
-        </button>
-      </form>
+        
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+          {error && <div className="rounded-md border border-red-400 bg-red-100 p-3 text-sm text-red-700 dark:bg-red-200">{error}</div>}
+          {success && <div className="rounded-md border border-green-400 bg-green-100 p-3 text-sm text-green-700 dark:bg-green-200">{success}</div>}
+          
+          {token && (
+            <div className="rounded-md border border-blue-400 bg-blue-100 p-4 text-sm text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+              <strong>Your Reset Token:</strong>
+              <p className="mt-2 break-all font-mono">{token}</p>
+              <Link to="/reset-password" className="mt-2 inline-block font-bold text-blue-700 dark:text-blue-300">
+                Go to Reset Password Page &rarr;
+              </Link>
+            </div>
+          )}
+
+          <div>
+            <label htmlFor="email" className="sr-only">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              className={inputStyle}
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+            >
+              {loading ? 'Sending...' : 'Get Reset Token'}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

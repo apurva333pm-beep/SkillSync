@@ -12,9 +12,11 @@ import ProtectedRoute from './utils/ProtectedRoute';
 
 function App() {
   return (
-    <div className="App">
+    // Set the base background color for light and dark modes
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <Navbar />
-      <main className="container">
+      {/* Set the main content container with padding and max-width */}
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
@@ -23,8 +25,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-          {/* Protected Routes (Require Login) */}
-          {/* We wrap these in the ProtectedRoute component */}
+          {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />

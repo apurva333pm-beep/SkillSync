@@ -10,6 +10,10 @@ function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  
+  // Reusable input field style
+  const inputStyle = "relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400";
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,11 +28,7 @@ function ResetPasswordPage() {
     setLoading(true);
 
     try {
-      // Call the /api/auth/reset-password endpoint
-      const { data } = await api.post('/auth/reset-password', { 
-        token, 
-        newPassword 
-      });
+      const { data } = await api.post('/auth/reset-password', { token, newPassword });
       setSuccess(data.message);
     } catch (err) {
       setError(err.response?.data?.message || 'Error resetting password');
@@ -38,52 +38,76 @@ function ResetPasswordPage() {
   };
 
   return (
-    <div className="auth-container">
-      <form onSubmit={handleSubmit} className="auth-form">
-        <h2>Reset Password</h2>
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-10 shadow-lg dark:bg-gray-800">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+            Reset Your Password
+          </h2>
+        </div>
         
-        {error && <div className="alert error">{error}</div>}
-        {success && (
-          <div className="alert success">
-            {success} <Link to="/login">Click here to Login</Link>
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+          {error && <div className="rounded-md border border-red-400 bg-red-100 p-3 text-sm text-red-700 dark:bg-red-200">{error}</div>}
+          {success && (
+            <div className="rounded-md border border-green-400 bg-green-100 p-3 text-sm text-green-700 dark:bg-green-200">
+              {success}!{' '}
+              <Link to="/login" className="font-bold underline">Click here to Login</Link>
+            </div>
+          )}
+          
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="token" className="sr-only">Reset Token</label>
+              <input
+                id="token"
+                name="token"
+                type="text"
+                required
+                className={inputStyle}
+                placeholder="Paste your reset token"
+                value={token}
+                onChange={(e) => setToken(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="newPassword" className="sr-only">New Password</label>
+              <input
+                id="newPassword"
+                name="newPassword"
+                type="password"
+                required
+                className={inputStyle}
+                placeholder="New Password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="confirmPassword" className="sr-only">Confirm New Password</label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                required
+                className={inputStyle}
+                placeholder="Confirm New Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
           </div>
-        )}
 
-        <div className="form-group">
-          <label htmlFor="token">Reset Token</label>
-          <input
-            type="text"
-            id="token"
-            value={token}
-            onChange={(e) => setToken(e.target.value)}
-            placeholder="Paste your token here"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="newPassword">New Password</label>
-          <input
-            type="password"
-            id="newPassword"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="confirmPassword">Confirm New Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? 'Resetting...' : 'Reset Password'}
-        </button>
-      </form>
+          <div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+            >
+              {loading ? 'Resetting...' : 'Reset Password'}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

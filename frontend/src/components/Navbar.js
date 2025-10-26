@@ -1,53 +1,75 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import ThemeToggle from './ThemeToggle'; // Import the toggle
 
 function Navbar() {
-  // Get auth state and logout function from our hook
   const { isAuthenticated, user, logout } = useAuth();
 
   return (
-    <nav className="navbar">
-      <div className="nav-brand">
-        <Link to="/">SkillSync</Link>
+    <nav className="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <div className="flex-shrink-0">
+            {/* Brand Logo */}
+            <Link to="/" className="text-2xl font-bold text-blue-600 dark:text-blue-500">
+              SkillSync
+            </Link>
+          </div>
+          
+          {/* Navigation Links */}
+          <div className="flex items-center space-x-4">
+            {isAuthenticated ? (
+              <>
+                {/* Dashboard Link */}
+                <Link
+                  to="/dashboard"
+                  className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  Dashboard
+                </Link>
+                
+                {/* Profile Link */}
+                <Link
+                  to="/profile"
+                  className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  Welcome, {user?.name}
+                </Link>
+                
+                {/* Logout Button */}
+                <button
+                  onClick={logout}
+                  className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                {/* Login Link */}
+                <Link
+                  to="/login"
+                  className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  Login
+                </Link>
+                
+                {/* Sign Up Button */}
+                <Link
+                  to="/signup"
+                  className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+            
+            {/* Add the Theme Toggle Button */}
+            <ThemeToggle />
+          </div>
+        </div>
       </div>
-      <ul className="nav-links">
-        {/* If user is logged in */}
-        {isAuthenticated ? (
-          /* FIX #1: This is the part from your screenshot.
-            You must wrap all these list items in one parent Fragment.
-          */
-          <>
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
-            <li>
-              <Link to="/profile">
-                Welcome, {user?.name}
-              </Link>
-            </li>
-            <li>
-              <button onClick={logout} className="btn btn-logout">
-                Logout
-              </button>
-            </li>
-          </>
-        ) : (
-          /* FIX #2: This is the part you fixed in the last step.
-            This Fragment is also required here.
-          */
-          <>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/signup" className="btn btn-primary">
-                Sign Up
-              </Link>
-            </li>
-          </>
-        )}
-      </ul>
     </nav>
   );
 }

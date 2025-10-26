@@ -5,13 +5,18 @@ import { useAuth } from '../hooks/useAuth';
 const ProtectedRoute = () => {
   const { isAuthenticated, loading } = useAuth();
 
-  // Show a loading message while auth status is being checked
+  // Show a styled loading message
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <p className="text-xl text-gray-600 dark:text-gray-400">
+          Loading your session...
+        </p>
+      </div>
+    );
   }
 
-  // If user is authenticated, show the page (Outlet)
-  // Otherwise, redirect to the login page
+  // If authenticated, show the page. Otherwise, redirect to login.
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
