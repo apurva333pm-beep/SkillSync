@@ -20,6 +20,7 @@ import AiChatPage from './pages/AiChatPage';
 import CareerAssessmentPage from './pages/CareerAssessmentPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage'; 
+import CounsellorPage from './pages/CounsellorPage';
 
 function App() {
   return (
@@ -44,7 +45,7 @@ function App() {
             <Route path="/intro-form" element={<IntroductoryFormPage />} />
             <Route path="/ai-chat" element={<AiChatPage />} />
             <Route path="/my-results" element={<div>My Results Page</div>} />
-            <Route path="/counsellors" element={<div>Counsellors Page</div>} />
+            <Route path="/counsellors" element={<CounsellorPage />} />
             <Route path="/career-assessment" element={<CareerAssessmentPage />} />
           </Route>
         </Routes>
