@@ -21,6 +21,12 @@ import CareerAssessmentPage from './pages/CareerAssessmentPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage'; 
 import CounsellorPage from './pages/CounsellorPage';
+import CareerGuidePage from './pages/CareerGuidePage.js';
+import BlogPage from './pages/BlogPage.js';
+import SuccessStoriesPage from './pages/SuccessStoriesPage.js';
+import HelpCenterPage from './pages/HelpCenterPage.js';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage.js';
+import TermsOfServicePage from './pages/TermsOfServicePage.js';
 
 function App() {
   return (
@@ -37,6 +43,12 @@ function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/career-guide" element={<CareerGuidePage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/success-stories" element={<SuccessStoriesPage />} />
+          <Route path="/help-center" element={<HelpCenterPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
@@ -47,6 +59,7 @@ function App() {
             <Route path="/my-results" element={<div>My Results Page</div>} />
             <Route path="/counsellors" element={<CounsellorPage />} />
             <Route path="/career-assessment" element={<CareerAssessmentPage />} />
+            
           </Route>
         </Routes>
       </main>
