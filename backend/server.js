@@ -12,15 +12,12 @@ app.use(express.json());
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
-app.use('/api/auth', authRoutes);
-
 const userRoutes = require('./routes/userRoutes');
-app.use('/api/user', userRoutes); 
+const feedbackRoutes = require('./routes/feedbackRoutes');
 
-// Test route
-app.get('/', (req, res) => {
-  res.send("Career Recommendation Backend Running ✅");
-});
+app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes); 
+app.use('/api/feedback', feedbackRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

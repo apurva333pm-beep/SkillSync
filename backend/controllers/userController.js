@@ -1,6 +1,5 @@
 const User = require('../models/User');
 
-// ===================== GET PROFILE =====================
 exports.getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password -resetToken -resetTokenExpiry');
@@ -13,7 +12,6 @@ exports.getProfile = async (req, res) => {
   }
 };
 
-// ===================== UPDATE PROFILE =====================
 exports.updateProfile = async (req, res) => {
   try {
     const { name, education_level, interests, age } = req.body;
